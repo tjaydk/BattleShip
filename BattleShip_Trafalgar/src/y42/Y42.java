@@ -21,6 +21,7 @@ public class Y42 implements BattleshipsPlayer
     private final static SecureRandom rnd = new SecureRandom();
     private int sizeX;
     private int sizeY;
+    private int x, y;
 
     public Y42()
     {
@@ -29,26 +30,38 @@ public class Y42 implements BattleshipsPlayer
     @Override
     public void placeShips(Fleet fleet, Board board)
     {
-        sizeX = board.sizeX();
+         sizeX = board.sizeX();
         sizeY = board.sizeY();
-        for(int i = 0; i < fleet.getNumberOfShips(); ++i)
-        {
+        for (int i = 0; i < fleet.getNumberOfShips(); ++i) {
             Ship s = fleet.getShip(i);
-            boolean vertical = rnd.nextBoolean();
+            boolean vertical;
             Position pos;
-            if(vertical)
-            {
-                int x = rnd.nextInt(sizeX);
-                int y = rnd.nextInt(sizeY-(s.size()-1));
-                pos = new Position(x, y);
+            
+            if (i == 0) {
+                vertical = true;
+                pos = new Position(3,8);
+                board.placeShip(pos, s, vertical);
             }
-            else
-            {
-                int x = rnd.nextInt(sizeX-(s.size()-1));
-                int y = rnd.nextInt(sizeY);
-                pos = new Position(x, y);
+            if (i == 1) {
+                vertical = false;
+                pos = new Position(7,4);
+                board.placeShip(pos, s, vertical);
             }
-            board.placeShip(pos, s, vertical);
+            if (i == 2) {
+                vertical = false;
+                pos = new Position(5,8);
+                board.placeShip(pos, s, vertical);
+            }
+            if (i == 3) {
+                vertical = false;
+                pos = new Position(4,1);
+                board.placeShip(pos, s, vertical);
+            }
+            if (i == 4) {
+                vertical = true;
+                pos = new Position(1,5);
+                board.placeShip(pos, s, vertical);
+            }
         }
     }
 
@@ -62,9 +75,28 @@ public class Y42 implements BattleshipsPlayer
     @Override
     public Position getFireCoordinates(Fleet enemyShips)
     {
-        int x = rnd.nextInt(sizeX);
-        int y = rnd.nextInt(sizeY);
-        return new Position(x,y);
+        while (enemyShips.getNumberOfShips() != 0) {
+            if (x < sizeX) {
+                for (int i = 0; i < sizeX; i++) {
+                    x = i;
+                    y = i;
+                    return new Position(x, y);
+                }
+            } else if (x == sizeX) {
+                for (int i = 0; x < 0; i++) {
+                    x = sizeX - i;
+                    y = i;
+                    if ((x == 5 && y == 4) || (x == 4 && y == 5)) {
+                        x = x - 2;
+                        y = y + 2;
+                    }
+                    return new Position(x, y);
+                }
+            }
+
+        }
+
+        return new Position(x, y);
     }
 
     @Override
