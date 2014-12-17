@@ -38,19 +38,5 @@ public class EbbesKlasse {
         return new Position(x, y);
     }
 
-    public Position fireModeTwo() {
-        for (int i = 0; i < 8; i++) {
-            x = sizeX - 1 - i;
-            y = i;
-            if ((x == 5 && y == 4) || (x == 4 && y == 5)) {
-                x = x - 2;
-                y = y + 2;
-            }
-            if (x == 0 && y == sizeY) {
-                shotSeq++;
-            }
-            shotsFired[i][i] = true;
-        }
-        return new Position(x, y);
-    }
+    
 }

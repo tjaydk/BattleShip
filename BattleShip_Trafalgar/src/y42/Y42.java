@@ -21,12 +21,23 @@ public class Y42 implements BattleshipsPlayer {
     private final static SecureRandom rnd = new SecureRandom();
     private int sizeX;
     private int sizeY;
-    private int x, y;
+    private int x, y, k;
     private int shotSeq;
+    private int shotCount, hitCount;
+    private int numberOfShips;
     private boolean hit;
+    private boolean lastHit;
+    private boolean battle;
     private boolean[][] shotsFired;
+    private String direction;
+    private int lastHitX, lastHitY;
 
     public Y42() {
+        direction = null;
+        shotCount = 0;
+        hitCount = 0;
+        shotSeq = 0;
+
     }
 
     @Override
@@ -60,7 +71,7 @@ public class Y42 implements BattleshipsPlayer {
             }
             if (i == 4) {
                 vertical = true;
-                pos = new Position(1, 5);
+                pos = new Position(9, 9);
                 board.placeShip(pos, s, vertical);
             }
         }
@@ -74,57 +85,343 @@ public class Y42 implements BattleshipsPlayer {
 
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
-        shotSeq = 0;
+        
+        shotsFired = new boolean[sizeX][sizeY];
+        numberOfShips = enemyShips.getNumberOfShips();
 
         while (enemyShips.getNumberOfShips() != 0) {
 
-            shotsFired = new boolean[sizeX][sizeY];
-
-            if (shotSeq == 0) {
-                fireModeOne();
-            } else if (shotSeq == 1) {
-                fireModeTwo();
+            if (hit || battle) {
+                if (enemyShips.getNumberOfShips() == numberOfShips) {
+                    battle = true;
+                    lastHit = true;
+                    hitCount++;
+                    shipHit();
+                } else {
+                    battle = false;
+                    hitCount = 0;
+                }
+            } 
+            else {
+                switch (shotSeq) {
+                    case 0:
+                        fireModeOne();
+                        break;
+                    case 1:
+                        fireModeTwo();
+                        break;
+                    case 2:
+                        fireModeThree();
+                        break;
+                    case 3:
+                        fireModeFour();
+                        break;
+                    case 4:
+                        fireModeFive();
+                        break;
+                }
             }
 
+            shotsFired[x][y] = true;
+            return new Position(x, y);
+        }
+        return null;
+
+    }
+
+    public void fireModeOne() {
+        for (int i = 0; k < 10; k++) {
+            x = i;
+            y = i;
+            if (x == 10) {
+                shotSeq++;
+                k = 0;
+            }
+            shotsFired[i][i] = true;
+            
+        }
+        
+    }
+
+    public void fireModeTwo() {
+        for (int i = 0; k < 8; k++) {
+            x = sizeX - 1 - i;
+            y = i;
+            if (x == 4 && y == 4) {
+                x = x - 1;
+                y = y + 1;
+            }
+            if (x == 0) {
+                shotSeq++;
+                k = 0;
+            }
+            shotsFired[i][i] = true;
+            
+        }
+        
+    }
+
+    public void fireModeThree() {
+        x = 4;
+        for (int i = 0; k < 4; k++) {
+            switch (i) {
+                case 0:
+                    y = 0;
+                    break;
+                case 1:
+                    y = 2;
+                    break;
+                case 2:
+                    y = 6;
+                    break;
+                case 3:
+                    y = 8;
+                    shotSeq++;
+                    k = 0;
+                    break;
+            }
+            
+        }
+        
+    }
+
+    public void fireModeFour() {
+        y = 4;
+        for (int i = 0; k < 4; k++) {
+            switch (i) {
+                case 0:
+                    x = 0;
+                    break;
+                case 1:
+                    x = 2;
+                    break;
+                case 2:
+                    x = 6;
+                    break;
+                case 3:
+                    x = 8;
+                    shotSeq++;
+                    k = 0;
+                    break;
+            }
+            
+        }
+        
+    }
+
+    public void fireModeFive() {
+        for (int i = 0; k < 24; k++) {
+            switch (i) {
+                case 0:
+                    x = 1;
+                    y = 9;
+                    break;
+                case 1:
+                    x = 5;
+                    y = 9;
+                    break;
+                case 2:
+                    x = 9;
+                    y = 1;
+                    break;
+                case 3:
+                    x = 9;
+                    y = 5;
+                    break;
+                case 4:
+                    x = 3;
+                    y = 1;
+                    break;
+                case 5:
+                    x = 5;
+                    y = 1;
+                    break;
+                case 6:
+                    x = 0;
+                    y = 3;
+                    break;
+                case 7:
+                    x = 0;
+                    y = 7;
+                    break;
+                case 8:
+                    x = 8;
+                    y = 2;
+                    break;
+                case 9:
+                    x = 7;
+                    y = 3;
+                    break;
+                case 10:
+                    x = 5;
+                    y = 7;
+                    break;
+                case 11:
+                    x = 6;
+                    y = 8;
+                    break;
+                case 12:
+                    x = 2;
+                    y = 8;
+                    break;
+                case 13:
+                    x = 3;
+                    y = 7;
+                    break;
+                case 14:
+                    x = 1;
+                    y = 3;
+                    break;
+                case 15:
+                    x = 1;
+                    y = 5;
+                    break;
+                case 16:
+                    x = 7;
+                    y = 5;
+                    break;
+                case 17:
+                    x = 8;
+                    y = 6;
+                    break;
+                case 18:
+                    x = 0;
+                    y = 3;
+                    break;
+                case 19:
+                    x = 0;
+                    y = 7;
+                    break;
+                case 20:
+                    x = 3;
+                    y = 9;
+                    break;
+                case 21:
+                    x = 7;
+                    y = 9;
+                    break;
+                case 22:
+                    x = 9;
+                    y = 3;
+                    break;
+                case 23:
+                    x = 9;
+                    y = 7;
+                    break;
+            }
+            
+        }
+        
+    }
+
+    public void shipHit() {
+        direction = "east";
+
+        while (x != lastHitX && y != lastHitY) {
+            switch (direction) {
+                case "north":
+                    hitNorth();
+                    break;
+                case "south":
+                    hitSouth();
+                    break;
+                case "east":
+                    hitEast();
+                    break;
+                case "west":
+                    hitWest();
+                    break;
+            }
+        }
+    }
+
+    public void hitNorth() {
+        if (hit) {
+            if (lastHitY != 0) {
+                x = lastHitX;
+                y = lastHitY - 1;
+                shotCount++;
+            } else if (hitCount > 1) {
+                direction = "south";
+                y = y + shotCount + 1;
+                shotCount = 0;
+            } else {
+                direction = "east";
+            }
+        } else if (hitCount > 1) {
+            direction = "south";
+            y = y + shotCount + 1;
+            shotCount = 0;
         }
 
-        return new Position(x, y);
     }
-    
-    public Position fireModeOne() {
-        for (int i = 0; i < sizeX; i++) {
-                    x = i;
-                    y = i;
-                    if (x == sizeX && y == sizeY) {
-                        shotSeq++;
-                    }
-                    shotsFired[i][i] = true;
-                }
-                    return new Position(x, y);
+
+    public void hitSouth() {
+        if (hit) {
+            if (lastHitY != 9) {
+                x = lastHitX;
+                y = lastHitY + 1;
+                shotCount++;
+            } else if (hitCount > 1) {
+                direction = "north";
+                y = y - shotCount - 1;
+                shotCount = 0;
+            } else {
+                direction = "west";
+            }
+        } else if (hitCount > 1) {
+            direction = "north";
+            y = y - shotCount - 1;
+            shotCount = 0;
+        }
     }
-    
-    public Position fireModeTwo() {
-        for (int i = 0; x < 0; i++) {
-                    x = sizeX - i;
-                    y = i;
-                    if ((x == 5 && y == 4) || (x == 4 && y == 5)) {
-                        x = x - 2;
-                        y = y + 2;
-                    }
-                    if (x == 0 && y == sizeY) {
-                        shotSeq++;
-                    }
-                    shotsFired[i][i] = true;
-                }
-                    return new Position(x, y);
+
+    public void hitEast() {
+        if (hit) {
+            if (lastHitX != 9) {
+                x = lastHitX + 1;
+                y = lastHitY;
+                shotCount++;
+            } else if (hitCount > 1) {
+                direction = "west";
+                x = x - shotCount - 1;
+                shotCount = 0;
+            } else {
+                direction = "south";
+            }
+        } else if (hitCount > 1) {
+            direction = "west";
+            x = x - shotCount - 1;
+            shotCount = 0;
+        }
     }
-    
-    public Position shipHit() {
-        return new Position(x,y);
+
+    public void hitWest() {
+        if (hit) {
+            if (lastHitX != 0) {
+                x = lastHitX - 1;
+                y = lastHitY;
+                shotCount++;
+            } else if (hitCount > 1) {
+                direction = "east";
+                x = x + shotCount + 1;
+                shotCount = 0;
+            } else {
+                direction = "north";
+            }
+        } else if (hitCount > 1) {
+            direction = "east";
+            x = x + shotCount + 1;
+            shotCount = 0;
+        }
     }
 
     @Override
     public void hitFeedBack(boolean hit, Fleet enemyShips) {
+        if (hit) {
+            lastHitX = x;
+            lastHitY = y;
+        }
         this.hit = hit;
     }
 

@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 
-package battleship.examples;
+package y42;
 
+import battleship.examples.RandomPlayer;
+import battleship.examples.SystematicShotPlayer;
 import battleship.interfaces.BattleshipsPlayer;
 import battleship.implementations.Battleships;
 import tournament.game.GameInstance;
@@ -16,11 +18,11 @@ import tournament.game.GameResult;
  *
  * @author Tobias Grundtvig
  */
-public class SingleMatchExample
+public class MatchTest
 {
     public static void main(String[] args)
     {
-        BattleshipsPlayer player1 = new RandomPlayer();
+        BattleshipsPlayer player1 = new Y42();
         BattleshipsPlayer player2 = new SystematicShotPlayer();
         GameInstance<BattleshipsPlayer> game = Battleships.getSingleGameInstance();
         GameResult res = game.run(player1, player2);
