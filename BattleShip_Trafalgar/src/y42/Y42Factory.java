@@ -39,7 +39,7 @@ public class Y42Factory implements PlayerFactory<BattleshipsPlayer>
     @Override
     public String getName()
     {
-        return "Why 42 " + id;
+        return "No Hands Snake " + id;
     }
     
 }
