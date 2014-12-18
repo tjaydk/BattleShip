@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package battleship.examples;
+package y42;
 
 import battleship.interfaces.BattleshipsPlayer;
 import tournament.player.PlayerFactory;
@@ -13,12 +13,12 @@ import tournament.player.PlayerFactory;
  *
  * @author Tobias Grundtvig
  */
-public class RandomPlayerFactory implements PlayerFactory<BattleshipsPlayer>
+public class Y42Factory implements PlayerFactory<BattleshipsPlayer>
 {
     private static int nextID = 1;
     private final int id;
 
-    public RandomPlayerFactory()
+    public Y42Factory()
     {
         id = nextID++;
     }
@@ -27,7 +27,7 @@ public class RandomPlayerFactory implements PlayerFactory<BattleshipsPlayer>
     @Override
     public BattleshipsPlayer getNewInstance()
     {
-        return new RandomPlayer();
+        return new Y42();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class RandomPlayerFactory implements PlayerFactory<BattleshipsPlayer>
     @Override
     public String getName()
     {
-        return "Random player " + id;
+        return "Why 42 " + id;
     }
     
 }

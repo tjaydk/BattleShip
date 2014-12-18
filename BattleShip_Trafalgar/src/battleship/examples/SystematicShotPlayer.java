@@ -56,7 +56,7 @@ public class SystematicShotPlayer implements BattleshipsPlayer
         }
     }
 
-    @Override // register the enemies shooting strategies
+    @Override
     public void incoming(Position pos)
     {
         

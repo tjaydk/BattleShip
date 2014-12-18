@@ -70,7 +70,7 @@ class BattleshipsGameInstance implements GameInstance<BattleshipsPlayer>
         }
         int draws = rounds-winsA-winsB;
         pA.endMatch(winsA, winsB, draws);
-        pA.endMatch(winsB, winsA, draws);
+        pB.endMatch(winsB, winsA, draws);
         int majorA = 0;
         int majorB = 0;
         if(winsA > winsB)

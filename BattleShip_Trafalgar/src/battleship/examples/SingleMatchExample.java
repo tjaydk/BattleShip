@@ -11,7 +11,6 @@ import battleship.implementations.Battleships;
 import tournament.game.GameInstance;
 import tournament.game.GameResult;
 
-
 /**
  *
  * @author Tobias Grundtvig
